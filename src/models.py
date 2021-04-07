@@ -8,24 +8,41 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
+class User(Base):
+    __tablename__ = 'user'
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    favoritecharacterid = Column(Integer, ForeignKey('people.id'))
+    favoriteplanetid = Column(Integer, ForeignKey('planet.id'))
+    people = relationship("People")
+    planet = relationship("Planet")
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
+
+class People(Base):
+    __tablename__ = 'people'
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    height = Column(Integer)
+    mass = Column(Integer)
+    hair_color = Column(String(250))
+    skin_color = Column(String(250))
+    eye_color = Column(String(250))
+    birth_year = Column(String(250))
+    gender = Column(String(250))
+    name = Column(String(250))
+    
 
+class Planets(Base):
+    __tablename__ = 'planet'
+    id = Column(Integer, primary_key=True)
+    diameter = Column(Integer)
+    rotation_period = Column(Integer)
+    orbital_period = Column(Integer)
+    gravity = Column(String(250))
+    population = Column(Integer)
+    climate = Column(String(250))
+    surface_water = Column(Integer)
+    name = Column(String(250))
+     
+   
     def to_dict(self):
         return {}
 
